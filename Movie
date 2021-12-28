@@ -1,0 +1,21 @@
+import requests
+from bs4 import BeautifulSoup
+
+
+res = requests.get('https://movies.yahoo.com.tw/chart.html?cate=rating')
+soup = BeautifulSoup(res.text, "html.parser")
+
+
+divc = soup.find_all('div','td')
+
+f = open('Movie.txt','w')
+f.write("電影上映120天內，網友滿意度列表：")
+
+for c in divc:
+    #print(c.text) 
+    str1=c.text.replace('\n','').replace('預告片','').replace('票','票\n').replace('排名','--').replace('片名','--').replace('上映日期','--').replace('網友滿意度','--').replace('--','').replace('共','星共').replace('星','星　')
+    print(str1)   
+    
+    print(str1,file=f)
+f.close()
+    
